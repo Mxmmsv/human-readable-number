@@ -4,10 +4,10 @@ module.exports = function toReadable(number) {
     }
 
     let digit = number % 10;
+    let twoDigit = number % 100;
     let tens = (Math.floor(number / 10) % 10) * 10;
     let hundreds = Math.floor(number / 100);
 
-    //! если меньше 100 либо кратные 10
     if (number < 100) {
         if (digit === 0) {
             return syntesNumber(tens);
@@ -15,14 +15,14 @@ module.exports = function toReadable(number) {
             return syntesNumber(tens) + " " + syntesNumber(digit);
         }
     }
-    //!=============================================================================
 
-    //! если меньше 1000 либо кратные 100 или 10
     if (number < 1000) {
         let finalHundredths = syntesNumber(hundreds) + " " + "hundred";
 
-        if (tens === 0 && digit === 0) {
+        if (twoDigit === 0) {
             return finalHundredths;
+        } else if (twoDigit <= 20) {
+            return finalHundredths + " " + syntesNumber(twoDigit);
         } else if (tens === 0) {
             return finalHundredths + " " + syntesNumber(digit); 
         } else if (digit === 0) {
