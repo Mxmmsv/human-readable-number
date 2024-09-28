@@ -4,12 +4,33 @@ module.exports = function toReadable(number) {
     }
 
     let digit = number % 10;
-    let tens = number - (number % 10);
+    let tens = (Math.floor(number / 10) % 10) * 10;
+    let hundreds = Math.floor(number / 100);
 
-    if (digit === 0) {
-        return syntesNumber(tens);
+    //! если меньше 100 либо кратные 10
+    if (number < 100) {
+        if (digit === 0) {
+            return syntesNumber(tens);
+        } else {
+            return syntesNumber(tens) + " " + syntesNumber(digit);
+        }
     }
-    return syntesNumber(tens) + " " + syntesNumber(digit);
+    //!=============================================================================
+
+    //! если меньше 1000 либо кратные 100 или 10
+    if (number < 1000) {
+        let finalHundredths = syntesNumber(hundreds) + " " + "hundred";
+
+        if (tens === 0 && digit === 0) {
+            return finalHundredths;
+        } else if (tens === 0) {
+            return finalHundredths + " " + syntesNumber(digit); 
+        } else if (digit === 0) {
+            return finalHundredths + " " + syntesNumber(tens);
+        } else {
+            return finalHundredths + " " + syntesNumber(tens) + " " + syntesNumber(digit); 
+        }
+    }
 };
 
 function syntesNumber(number) {
